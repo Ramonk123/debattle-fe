@@ -1,0 +1,35 @@
+<div class="">
+  <h1>Debattle</h1>
+  <form [formGroup]="loginForm" class="login-form" (ngSubmit)="submitForm()" *ngIf="isLoginForm">
+    <h2>Registreren</h2>
+    <label for="email-input">Vul je e-mailadres in</label>
+    <input type="text" id="email-input" placeholder="Emailadres" formControlName="email">
+    <div *ngIf="emailControl?.dirty && emailControl?.invalid">
+      <p>Ongeldig emailadres</p>
+    </div>
+
+    <label for="password-input">Wachtwoord</label>
+    <input type="password" placeholder="Wachtwoord" id="password-input" formControlName="password">
+    <div *ngIf="passwordControl?.dirty && passwordControl?.invalid">
+      <p>Het wachtwoord moet uit minimaal 7 tekens bestaan</p>
+    </div>
+
+    <label for="password-input">Herhaal wachtwoord</label>
+    <input type="password" placeholder="Herhaal wachtwoord" id="password-input-repeat" formControlName="passwordRepeat">
+    <div
+      *ngIf="loginForm.get('passwordRepeat')?.invalid && (loginForm.get('passwordRepeat')?.dirty || loginForm.get('passwordRepeat')?.touched)">
+      <div *ngIf="loginForm.get('passwordRepeat')?.hasError('required')">Herhaal wachtwoord is verplicht.</div>
+      <div *ngIf="loginForm.get('passwordRepeat')?.hasError('minlength')">Herhaal wachtwoord moet minimaal 7 tekens lang
+        zijn.
+      </div>
+      <div *ngIf="loginForm.get('passwordRepeat')?.hasError('passwordMismatch')">Wachtwoorden komen niet overeen.</div>
+    </div>
+
+
+    <button type="submit">Maak je partij!</button>
+  </form>
+  <form class="login-form">
+    <h2>Inloggen</h2>
+
+  </form>
+</div>
