@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AuthenticationService} from "../services/authentication.service";
 
 @Component({
   selector: 'app-welcome-screen',
@@ -8,18 +9,15 @@ import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/form
 })
 
 
-
 export class WelcomeScreenComponent implements OnInit {
 
   loginForm!: FormGroup;
   isLoginForm: boolean = true;
-  emailControl! : AbstractControl | null;
-  passwordControl! : AbstractControl | null;
-  passwordRepeatControl! : AbstractControl | null;
+  unequalPasswordsValidator: boolean = false;
 
-  constructor(private formBuilder: FormBuilder) {
+
+  constructor(private formBuilder: FormBuilder, private authService: AuthenticationService) {
   }
-
 
 
   ngOnInit(): void {
@@ -27,23 +25,22 @@ export class WelcomeScreenComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(7)]],
       passwordRepeat: ['', [Validators.required, Validators.minLength(7)]]
-    }, this.passwordMatchValidator);
-    this.emailControl = this.loginForm.get('email');
-    this.passwordControl = this.loginForm.get('password');
-    this.passwordRepeatControl = this.loginForm.get('passwordRepeat');
+    });
   }
-
 
 
   submitForm() {
-    console.log(this.loginForm.value);
-    console.log(    this.loginForm.valid)
-    console.log(this.loginForm.get('passwordRepeat')?.errors)
-  }
+    let email = this.loginForm.get('email')?.value;
+    let password = this.loginForm.get('password')?.value;
 
-  passwordMatchValidator() {
-    const frm = this.loginForm;
-    return frm.controls['newPassword'].value === frm.controls['repeatNewPassword'].value ? null : {'mismatch': true};
+    if (this.loginForm.get('password')?.value === this.loginForm.get('passwordRepeat')?.value) {
+      this.authService.register(email, password).subscribe(data => {
+        console.log(data)
+
+      })
+    } else {
+      this.unequalPasswordsValidator = !this.unequalPasswordsValidator
+    }
   }
 
 
