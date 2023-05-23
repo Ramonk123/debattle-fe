@@ -6,11 +6,13 @@ import { AppComponent } from './app.component';
 import { WelcomeScreenComponent } from './welcome-screen/welcome-screen.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    WelcomeScreenComponent
+    WelcomeScreenComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
