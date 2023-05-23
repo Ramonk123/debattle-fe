@@ -1,26 +1,47 @@
-<div class="">
+<div>
   <h1>Debattle</h1>
-  <form [formGroup]="loginForm" class="login-form" (ngSubmit)="submitForm()" *ngIf="isLoginForm">
-    <h2>Registreren</h2>
-    <label for="email-input">Vul je e-mailadres in</label>
-    <input type="text" id="email-input" placeholder="Emailadres" formControlName="email">
-    <div *ngIf="loginForm?.get('email')?.dirty && loginForm?.get('email')?.invalid">
-      <p>Emailadres onjuist</p>
-    </div>
+  <div [hidden]="!isLoginForm">
+    <form [formGroup]="registerForm" class="login-form" (ngSubmit)="submitRegisterForm()">
+      <h2>Registreren</h2>
+      <label for="email-input">Vul je e-mailadres in</label>
+      <input type="text" id="email-input" placeholder="Emailadres" formControlName="email">
+      <div *ngIf="registerForm?.get('email')?.dirty && registerForm?.get('email')?.invalid">
+        <p>Emailadres onjuist</p>
+      </div>
 
-    <label for="password-input">Wachtwoord</label>
-    <input type="password" placeholder="Wachtwoord" id="password-input" formControlName="password">
-    <div *ngIf="loginForm?.get('password')?.dirty && loginForm?.get('password')?.value.length < 7">
-      <p>Wachtwoord moet minimaal 7 karakters bevatten</p>
-    </div>
+      <label for="password-input">Wachtwoord</label>
+      <input type="password" placeholder="Wachtwoord" id="password-input" formControlName="password">
+      <div *ngIf="registerForm?.get('password')?.dirty && registerForm?.get('password')?.value.length < 7">
+        <p>Wachtwoord moet minimaal 7 karakters bevatten</p>
+      </div>
 
-    <label for="password-input">Herhaal wachtwoord</label>
-    <input type="password" placeholder="Herhaal wachtwoord" id="password-input-repeat" formControlName="passwordRepeat">
-   <div *ngIf="unequalPasswordsValidator">
-     <p>Wachtwoorden komen niet overeen</p>
-   </div>
+      <label for="password-input">Herhaal wachtwoord</label>
+      <input type="password" placeholder="Herhaal wachtwoord" id="password-input-repeat"
+             formControlName="passwordRepeat">
+      <div *ngIf="unequalPasswordsValidator">
+        <p>Wachtwoorden komen niet overeen</p>
+      </div>
 
-    <button type="submit" [disabled]="loginForm.invalid">Maak je partij!</button>
-  </form>
+      <button type="submit" [disabled]="registerForm.invalid">Maak je partij!</button>
+    </form>
+    <p>Al een account?</p>
+    <button (click)="isLoginForm = !isLoginForm">Ga naar inloggen</button>
+  </div>
+  <div [hidden]="isLoginForm">
+    <h2>Inloggen</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="submitLoginForm()" class="login-form">
+      <label for="email">Emailadres</label>
+      <input type="text" id="email" formControlName="email">
+      <div *ngIf="loginForm?.get('email')?.dirty && loginForm.get('email')?.invalid">
+        <p>Onjuist emailadres</p>
+      </div>
+      <label for="password">Wachtwoord</label>
+      <input type="password" id="password" formControlName="password">
+      <button type="submit">Inloggen</button>
 
+    </form>
+    <p>Nog geen account?</p>
+  <button (click)="isLoginForm =!isLoginForm">Ga naar registreren</button>
+  </div>
 </div>
+
