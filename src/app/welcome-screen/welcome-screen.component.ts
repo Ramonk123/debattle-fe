@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {AuthenticationService} from "../services/authentication.service";
 
 @Component({
@@ -11,14 +11,14 @@ import {AuthenticationService} from "../services/authentication.service";
 
 export class WelcomeScreenComponent implements OnInit {
 
-  registerForm!: FormGroup;
+  registerForm!: UntypedFormGroup;
   isLoginForm: boolean = true;
   unequalPasswordsValidator: boolean = false;
 
-  loginForm!: FormGroup
+  loginForm!: UntypedFormGroup
 
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthenticationService) {
+  constructor(private formBuilder: UntypedFormBuilder, private authService: AuthenticationService) {
   }
 
 
