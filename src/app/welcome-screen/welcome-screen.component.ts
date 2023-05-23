@@ -11,9 +11,11 @@ import {AuthenticationService} from "../services/authentication.service";
 
 export class WelcomeScreenComponent implements OnInit {
 
-  loginForm!: FormGroup;
+  registerForm!: FormGroup;
   isLoginForm: boolean = true;
   unequalPasswordsValidator: boolean = false;
+
+  loginForm!: FormGroup
 
 
   constructor(private formBuilder: FormBuilder, private authService: AuthenticationService) {
@@ -21,19 +23,24 @@ export class WelcomeScreenComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.loginForm = this.formBuilder.group({
+    this.registerForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(7)]],
       passwordRepeat: ['', [Validators.required, Validators.minLength(7)]]
     });
+
+
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(7)]]
+    });
   }
 
 
-  submitForm() {
-    let email = this.loginForm.get('email')?.value;
-    let password = this.loginForm.get('password')?.value;
-
-    if (this.loginForm.get('password')?.value === this.loginForm.get('passwordRepeat')?.value) {
+  submitRegisterForm() {
+    let email = this.registerForm.get('email')?.value;
+    let password = this.registerForm.get('password')?.value;
+    if (this.registerForm.get('password')?.value === this.registerForm.get('passwordRepeat')?.value) {
       this.authService.register(email, password).subscribe(data => {
         console.log(data)
 
@@ -43,6 +50,11 @@ export class WelcomeScreenComponent implements OnInit {
     }
   }
 
-
+  submitLoginForm() {
+    let email = this.loginForm.get('email')?.value;
+    let password = this.loginForm.get('password')?.value;
+    console.log(email, password)
+    this.authService.login(email, password)
+  }
 }
 
