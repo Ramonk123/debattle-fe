@@ -5,6 +5,7 @@
   <button (click)="submitChoice($event)">{{buttonText[0]}}</button>
   <button (click)="submitChoice($event)">{{buttonText[1]}}</button>
 <hr>
-<app-status-bar></app-status-bar>
+<!--<app-status-bar [category]="'education'"></app-status-bar>-->
+<app-status-bar *ngFor="let status of statusBars" [category]="status"></app-status-bar>
 <hr>
 <button (click)="test()">test</button>

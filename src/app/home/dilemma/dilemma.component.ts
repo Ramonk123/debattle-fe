@@ -15,6 +15,7 @@ export class DilemmaComponent implements OnInit, OnDestroy {
   private questionIndex: number = 0;
   public currentQuestion: Question | null = null;
   public buttonText: string[] = [];
+  public statusBars: string[] = [];
 
   constructor(private route: ActivatedRoute, private questionService: QuestionService) {
   }
@@ -23,7 +24,6 @@ export class DilemmaComponent implements OnInit, OnDestroy {
     this.route.paramMap.subscribe(params => {
       this.category = params.get('category')!;
       this.questionService.getQuestions(this.category).subscribe(data => {
-        console.log(data)
         this.questions = data;
         this.currentQuestion = this.questions[this.questionIndex];
         this.setButtonOptions();
@@ -61,7 +61,16 @@ export class DilemmaComponent implements OnInit, OnDestroy {
   }
 
   private setStatusBar() {
-
+    this.currentQuestion?.answers.forEach(answer => {
+      Object.values(answer).forEach(key => {
+        key.forEach(entry => {
+          let bar = Object.keys(entry)[0];
+          if (!this.statusBars.includes(bar)) {
+            this.statusBars.push(bar)
+          }
+        })
+      })
+    })
   }
 }
 

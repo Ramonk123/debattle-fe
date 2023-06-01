@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {QuestionService} from "../services/question.service";
 import {AuthenticationService} from "../services/authentication.service";
 import {Router} from "@angular/router";
+import {StatusBarService} from "../services/status-bar.service";
 
 @Component({
   selector: 'app-home',
@@ -10,7 +11,7 @@ import {Router} from "@angular/router";
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private questionService: QuestionService, private authenticationService: AuthenticationService, private router: Router) { }
+  constructor(private questionService: QuestionService, private authenticationService: AuthenticationService, private router: Router, private statusBarService: StatusBarService) { }
 
   ngOnInit(): void {
     this.authenticationService.autoLogin();
@@ -38,6 +39,8 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['login'])
 
   }
+
+
 }
 
 

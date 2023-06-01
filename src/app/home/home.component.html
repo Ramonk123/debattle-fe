@@ -2,8 +2,12 @@
 <button (click)="testMethod()">test</button>
 <button (click)="logout()">logout</button>
 
-
-<app-status-bar></app-status-bar>
+<div>
+  <app-status-bar [category]="'economy'"></app-status-bar>
+  <app-status-bar [category]="'housing'"></app-status-bar>
+  <app-status-bar [category]="'climate'"></app-status-bar>
+  <app-status-bar [category]="'education'"></app-status-bar>
+</div>
 <hr>
 
 <app-island></app-island>

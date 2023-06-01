@@ -1,36 +1,62 @@
 import {Component, Input, OnInit} from '@angular/core';
-import { MatProgressBarModule } from "@angular/material/progress-bar";
 import {StatusBarService} from "../../services/status-bar.service";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-status-bar',
   templateUrl: './status-bar.component.html',
   styleUrls: ['./status-bar.component.css']
 })
-export class StatusBarComponent implements OnInit{
-  moneyProgressValue: number = 0;
-  happinessProgressValue: number = 0; //Maybe overbodig
-  climateProgressValue: number = 0; // Climate - Nature
-  housingProgressValue: number = 0; // Housing
-  educationProgressValue: number = 0; // Culture & education
+export class StatusBarComponent implements OnInit {
+  public progressValue: number = 0;
 
-  constructor(private statusBarService: StatusBarService) {}
+  @Input() category: string = '';
+  private statusValue$: Observable<number> = new Observable();
 
-  test(value: number) {
-    console.log('pre')
-    console.log(this.moneyProgressValue)
-    console.log('test')
-    this.statusBarService.updateMoneyStatus(value);
-    console.log(this.moneyProgressValue)
+  constructor(private statusBarService: StatusBarService) {
+  }
+
+
+  ngOnInit(): void {
+    this.retrieveObservable(this.category);
+    this.statusValue$.subscribe(value => this.progressValue = value)
+  }
+
+  private retrieveObservable(category: string) {
+    switch (category) {
+      case 'economy' :
+        this.statusValue$ = this.statusBarService.getMoneyStatus();
+        break;
+      case 'housing' :
+        this.statusValue$ = this.statusBarService.getHousingStatus();
+        break;
+      case 'climate' :
+        this.statusValue$ = this.statusBarService.getClimateStatus();
+        break;
+      case 'education' :
+        this.statusValue$ = this.statusBarService.getEducationStatus();
+        break;
+    }
 
   }
 
-  ngOnInit(): void {
-   this.statusBarService.getMoneyStatus().subscribe(value => this.moneyProgressValue = value);
-   this.statusBarService.getHappinessStatus().subscribe(value => this.happinessProgressValue = value);
-   this.statusBarService.getHousingStatus().subscribe(value => this.housingProgressValue = value);
-   this.statusBarService.getClimateStatus().subscribe(value => this.climateProgressValue = value);
-   this.statusBarService.getEducationStatus().subscribe(value => this.educationProgressValue = value);
+  public setSubjectValue(amount: number) {
+    switch (this.category) {
+      case 'economy' :
+       this.statusBarService.updateMoneyStatus(amount);
+        break;
+      case 'housing' :
+        this.statusBarService.updateHousingStatus(amount);
+        break;
+      case 'climate' :
+        this.statusBarService.updateClimateStatus(amount);
+        break;
+      case 'education' :
+        this.statusBarService.updateEducationStatus(amount);
+        break;
+
+    }
+
   }
 
 }
