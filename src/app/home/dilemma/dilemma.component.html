@@ -1,0 +1,10 @@
+<h1>{{category}}</h1>
+<a routerLink="/home"><button>Back</button></a>
+  <h2>Dilemma!</h2>
+  <p>{{currentQuestion?.question}}</p>
+  <button (click)="submitChoice($event)">{{buttonText[0]}}</button>
+  <button (click)="submitChoice($event)">{{buttonText[1]}}</button>
+<hr>
+<app-status-bar></app-status-bar>
+<hr>
+<button (click)="test()">test</button>

@@ -53,7 +53,6 @@ export class WelcomeScreenComponent implements OnInit {
   submitLoginForm() {
     let email = this.loginForm.get('email')?.value;
     let password = this.loginForm.get('password')?.value;
-    console.log(email, password)
     this.authService.login(email, password)
   }
 }
