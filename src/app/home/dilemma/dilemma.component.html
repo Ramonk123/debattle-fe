@@ -2,10 +2,10 @@
 <a routerLink="/home"><button>Back</button></a>
   <h2>Dilemma!</h2>
   <p>{{currentQuestion?.question}}</p>
-  <button (click)="submitChoice($event)">{{buttonText[0]}}</button>
-  <button (click)="submitChoice($event)">{{buttonText[1]}}</button>
+  <button [style.background-color]="firstOptionClicked ? '#2DE87E' : 'white'" (click)="selectFirstOption()">{{buttonText[0]}}</button>
+
+  <button [style.background-color]="secondOptionClicked ? '#2DE87E' : 'white'"  (click)="selectSecondOption()">{{buttonText[1]}}</button>
 <hr>
-<!--<app-status-bar [category]="'education'"></app-status-bar>-->
 <app-status-bar *ngFor="let status of statusBars" [category]="status"></app-status-bar>
 <hr>
-<button (click)="test()">test</button>
+<button (click)="confirmChoice()">test</button>

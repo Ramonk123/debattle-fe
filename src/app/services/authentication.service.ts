@@ -11,6 +11,7 @@ export class AuthenticationService {
   private token: string = ''; //might be removed in the future
   public isLoggedIn: boolean = false;
   private userId: string = '';
+  private user: {} = {};
   private session = new BehaviorSubject({ token: '', user: '' }); //might also be removed
 
   constructor(private http: HttpClient, private router: Router) {
@@ -28,15 +29,15 @@ export class AuthenticationService {
     return this.http.post(URL, body, {withCredentials: true, observe: "response"}).subscribe((data: any) => {
         this.token = data.headers.get('Set-Cookie');
         console.log(document.cookie)
-        this.userId = data.body.id;
-      console.log(data)
-        localStorage.setItem('userId', this.userId);
+        this.userId = data.body[0]._id
+        this.user = data.body[0]
+      console.log(this.user)
+      localStorage.setItem('userId', this.userId);
         localStorage.setItem('userState', String(this.isLoggedIn));
         this.session.next({ token: this.token, user: this.userId }); //Maybe unnecessary
 
         this.router.navigate(['/home'])
-      console.log('cookie')
-      console.log(data);
+
       }, error => {
         console.log(error)
       }
@@ -62,6 +63,11 @@ export class AuthenticationService {
     }
 
     this.isLoggedIn = true;
+  }
+
+  public getUser() {
+    return this.user;
+
   }
 
 }

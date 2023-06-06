@@ -44,29 +44,53 @@ export class StatusBarService {
 
   }
 
-  public updateMoneyStatus(amount: number) {
+  public updateValue(category: string, amount: number) {
+    switch (category) {
+      case  'economy' :
+        this.updateMoneyStatus(amount);
+        break;
+      case 'education' :
+        this.updateEducationStatus(amount);
+        break;
+      case 'climate' :
+        this.updateClimateStatus(amount);
+        break;
+      case 'housing' :
+        this.updateHousingStatus(amount);
+        break;
+    }
+
+
+  }
+
+  private updateMoneyStatus(amount: number) {
+    console.log('money ' + amount)
     const value = this.calculateDifference(this.moneyStatus$.value, amount);
     this.moneyStatus$.next(value);
 
 
   }
 
-  public updateHappinessStatus(amount: number): void {
+  private updateHappinessStatus(amount: number): void {
+    console.log('happiness ' + amount)
     const newValue = this.calculateDifference(this.happinessStatus$.value, amount);
     this.happinessStatus$.next(newValue);
   }
 
-  public updateClimateStatus(amount: number) : void {
+  private updateClimateStatus(amount: number): void {
+    console.log('climate ' + amount)
     const newValue = this.calculateDifference(this.climateStatus$.value, amount);
     this.climateStatus$.next(newValue);
   }
 
-  public updateHousingStatus(amount: number) : void {
+  private updateHousingStatus(amount: number): void {
+    console.log('housing ' + amount)
     const newValue = this.calculateDifference(this.housingStatus$.value, amount);
     this.housingStatus$.next(newValue);
   }
 
-  public updateEducationStatus(amount: number) : void {
+  private updateEducationStatus(amount: number): void {
+    console.log('educ ' + amount)
     const newValue = this.calculateDifference(this.educationStatus$.value, amount);
     this.educationStatus$.next(newValue);
 

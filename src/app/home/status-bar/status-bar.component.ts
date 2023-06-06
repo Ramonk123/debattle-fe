@@ -7,9 +7,10 @@ import {Observable} from "rxjs";
   templateUrl: './status-bar.component.html',
   styleUrls: ['./status-bar.component.css']
 })
-export class StatusBarComponent implements OnInit {
+export class StatusBarComponent implements OnInit{
   public progressValue: number = 0;
 
+  public oldValue: number = 0;
   @Input() category: string = '';
   private statusValue$: Observable<number> = new Observable();
 
@@ -21,6 +22,8 @@ export class StatusBarComponent implements OnInit {
     this.retrieveObservable(this.category);
     this.statusValue$.subscribe(value => this.progressValue = value)
   }
+
+
 
   private retrieveObservable(category: string) {
     switch (category) {
@@ -40,24 +43,24 @@ export class StatusBarComponent implements OnInit {
 
   }
 
-  public setSubjectValue(amount: number) {
-    switch (this.category) {
-      case 'economy' :
-       this.statusBarService.updateMoneyStatus(amount);
-        break;
-      case 'housing' :
-        this.statusBarService.updateHousingStatus(amount);
-        break;
-      case 'climate' :
-        this.statusBarService.updateClimateStatus(amount);
-        break;
-      case 'education' :
-        this.statusBarService.updateEducationStatus(amount);
-        break;
-
-    }
-
-  }
+  // public setSubjectValue(amount: number) {
+  //   switch (this.category) {
+  //     case 'economy' :
+  //      this.statusBarService.updateMoneyStatus(amount);
+  //       break;
+  //     case 'housing' :
+  //       this.statusBarService.updateHousingStatus(amount);
+  //       break;
+  //     case 'climate' :
+  //       this.statusBarService.updateClimateStatus(amount);
+  //       break;
+  //     case 'education' :
+  //       this.statusBarService.updateEducationStatus(amount);
+  //       break;
+  //
+  //   }
+  //
+  // }
 
 }
 

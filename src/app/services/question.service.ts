@@ -26,10 +26,13 @@ export class QuestionService {
     })
   }
 
-   getQuestions(category: string) : Observable<Question[]>{
+  getQuestions(category: string): Observable<Question[]> {
     const URL = environment.URL + `/question/${category}`
     return this.http.get<Question[]>(URL);
+  }
 
+  updateProgress(id: string) {
+    const URL = environment.URL + `/user/${id}`;
 
   }
 
