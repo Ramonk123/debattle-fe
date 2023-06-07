@@ -28,7 +28,6 @@ export class AuthenticationService {
     const body = {email: email, password: password};
     return this.http.post(URL, body, {withCredentials: true, observe: "response"}).subscribe((data: any) => {
         this.token = data.headers.get('Set-Cookie');
-        console.log(document.cookie)
         this.userId = data.body[0]._id
         this.user = data.body[0]
       console.log(this.user)

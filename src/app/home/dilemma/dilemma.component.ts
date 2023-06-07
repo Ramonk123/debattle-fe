@@ -20,6 +20,7 @@ export class DilemmaComponent implements OnInit, OnDestroy {
   public statusBars: string[] = [];
   public firstOptionClicked: boolean = false;
   public secondOptionClicked: boolean = false;
+  private progress : any = {};
 
 
   constructor(private route: ActivatedRoute,
@@ -37,6 +38,14 @@ export class DilemmaComponent implements OnInit, OnDestroy {
         this.setStatusBar();
       })
     })
+    const userId = localStorage.getItem('userId');
+   if (userId) {
+     this.questionService.getProgress().subscribe(data => {
+       console.log(data)
+       this.progress = data;
+
+     });
+   }
   }
 
   ngOnDestroy(): void {
@@ -81,13 +90,15 @@ export class DilemmaComponent implements OnInit, OnDestroy {
     if (this.firstOptionClicked) {
       return;
     }
-    console.log(this.authenticationService.getUser());
+    if (this.secondOptionClicked) {
+      this.resetStatusBars();
+
+    }
     this.firstOptionClicked = true;
     this.secondOptionClicked = false;
    let x = this.currentQuestion?.answers[`${this.buttonText[0]}`]
     x?.forEach(entry => {
       Object.entries(entry).forEach(e => {
-        console.log(entry)
         this.statusBarService.updateValue(e[0], e[1]);
       })
     })
@@ -96,6 +107,9 @@ export class DilemmaComponent implements OnInit, OnDestroy {
   public selectSecondOption() {
     if (this.secondOptionClicked) {
       return;
+    }
+    if (this.firstOptionClicked) {
+      this.resetStatusBars();
 
     }
     this.firstOptionClicked = false;
@@ -107,6 +121,16 @@ export class DilemmaComponent implements OnInit, OnDestroy {
       })
     })
 
+  }
+
+
+  private resetStatusBars() {
+    console.log('t')
+    this.statusBars.forEach(bar => {
+      console.log(bar)
+      console.log(this.progress.progress[bar])
+
+    })
   }
 }
 

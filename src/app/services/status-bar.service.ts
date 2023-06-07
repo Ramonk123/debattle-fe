@@ -8,10 +8,10 @@ import {LogicalFileSystem} from "@angular/compiler-cli";
 })
 export class StatusBarService {
   private moneyStatus$: BehaviorSubject<number> = new BehaviorSubject<number>(50);
-  private happinessStatus$: BehaviorSubject<number> = new BehaviorSubject<number>(30);
-  private housingStatus$: BehaviorSubject<number> = new BehaviorSubject<number>(30);
-  private climateStatus$: BehaviorSubject<number> = new BehaviorSubject<number>(30);
-  private educationStatus$: BehaviorSubject<number> = new BehaviorSubject<number>(30);
+  private happinessStatus$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  private housingStatus$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  private climateStatus$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  private educationStatus$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
   constructor(private http: HttpClient) {
   }
@@ -64,7 +64,6 @@ export class StatusBarService {
   }
 
   private updateMoneyStatus(amount: number) {
-    console.log('money ' + amount)
     const value = this.calculateDifference(this.moneyStatus$.value, amount);
     this.moneyStatus$.next(value);
 
@@ -72,25 +71,21 @@ export class StatusBarService {
   }
 
   private updateHappinessStatus(amount: number): void {
-    console.log('happiness ' + amount)
     const newValue = this.calculateDifference(this.happinessStatus$.value, amount);
     this.happinessStatus$.next(newValue);
   }
 
   private updateClimateStatus(amount: number): void {
-    console.log('climate ' + amount)
     const newValue = this.calculateDifference(this.climateStatus$.value, amount);
     this.climateStatus$.next(newValue);
   }
 
   private updateHousingStatus(amount: number): void {
-    console.log('housing ' + amount)
     const newValue = this.calculateDifference(this.housingStatus$.value, amount);
     this.housingStatus$.next(newValue);
   }
 
   private updateEducationStatus(amount: number): void {
-    console.log('educ ' + amount)
     const newValue = this.calculateDifference(this.educationStatus$.value, amount);
     this.educationStatus$.next(newValue);
 
