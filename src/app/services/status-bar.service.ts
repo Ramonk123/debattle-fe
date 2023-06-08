@@ -1,17 +1,17 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
 import {HttpClient} from "@angular/common/http";
-import {LogicalFileSystem} from "@angular/compiler-cli";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class StatusBarService {
   private moneyStatus$: BehaviorSubject<number> = new BehaviorSubject<number>(50);
-  private happinessStatus$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-  private housingStatus$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-  private climateStatus$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-  private educationStatus$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  private happinessStatus$: BehaviorSubject<number> = new BehaviorSubject<number>(30);
+  private housingStatus$: BehaviorSubject<number> = new BehaviorSubject<number>(30);
+  private climateStatus$: BehaviorSubject<number> = new BehaviorSubject<number>(30);
+  private educationStatus$: BehaviorSubject<number> = new BehaviorSubject<number>(30);
 
   constructor(private http: HttpClient) {
   }
@@ -41,6 +41,15 @@ export class StatusBarService {
 
   public getEducationStatus() {
     return this.educationStatus$.asObservable();
+
+  }
+
+  public resetCurrentStatus(stats: any) {
+    console.log(stats)
+    this.moneyStatus$.next(stats.progress['economy']);
+    this.housingStatus$.next(stats.progress['housing']);
+    this.climateStatus$.next(stats.progress['climate']);
+    this.educationStatus$.next(stats.progress['education']);
 
   }
 
@@ -95,5 +104,12 @@ export class StatusBarService {
     let finalAmount = current + change;
     finalAmount = Math.max(0, Math.min(100, finalAmount));
     return finalAmount;
+  }
+
+  public updateProgress(progress: any) {
+    const id = localStorage.getItem('userId');
+    const URL = environment.URL + `/user/${id}`;
+    return this.http.post(URL, progress);
+
   }
 }

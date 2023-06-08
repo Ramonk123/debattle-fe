@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {StatusBarService} from "../../services/status-bar.service";
 import {Observable} from "rxjs";
 
@@ -11,7 +11,7 @@ export class StatusBarComponent implements OnInit{
   public progressValue: number = 0;
 
   public oldValue: number = 0;
-  @Input() category: string = '';
+  @Input() category: string = ''.toLowerCase();
   private statusValue$: Observable<number> = new Observable();
 
   constructor(private statusBarService: StatusBarService) {
@@ -22,6 +22,7 @@ export class StatusBarComponent implements OnInit{
     this.retrieveObservable(this.category);
     this.statusValue$.subscribe(value => this.progressValue = value)
   }
+
 
 
 

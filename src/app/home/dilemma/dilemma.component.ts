@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {QuestionService} from "../../services/question.service";
 import {Question} from "../../models/iQuestion";
@@ -20,13 +20,15 @@ export class DilemmaComponent implements OnInit, OnDestroy {
   public statusBars: string[] = [];
   public firstOptionClicked: boolean = false;
   public secondOptionClicked: boolean = false;
-  private progress : any = {};
+  private progress: any = {};
+  private newProgress: any = {};
 
 
   constructor(private route: ActivatedRoute,
               private questionService: QuestionService,
               private statusBarService: StatusBarService,
-              private authenticationService: AuthenticationService) {}
+              private authenticationService: AuthenticationService) {
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -37,20 +39,22 @@ export class DilemmaComponent implements OnInit, OnDestroy {
         this.setButtonText();
         this.setStatusBar();
       })
-    })
+    });
     const userId = localStorage.getItem('userId');
-   if (userId) {
-     this.questionService.getProgress().subscribe(data => {
-       console.log(data)
-       this.progress = data;
+    if (userId) {
+      this.questionService.getProgress().subscribe(data => {
+        console.log(data)
+        this.progress = data;
+        this.newProgress = data;
 
-     });
-   }
+      });
+    }
   }
 
   ngOnDestroy(): void {
     this.questions = [];
     this.currentQuestion = null;
+    this.statusBarService.resetCurrentStatus(this.progress);
   }
 
   private setButtonText() {
@@ -61,8 +65,12 @@ export class DilemmaComponent implements OnInit, OnDestroy {
 
   confirmChoice() {
     if (this.questions.length == this.questionIndex) {
-      return;
+      return; //TODO: Go to end screen or return to home island
     }
+    this.statusBarService.updateProgress(this.progress).subscribe(data => {
+      console.log(data);
+
+    });
     this.questionIndex += 1;
     this.currentQuestion = this.questions[this.questionIndex];
 
@@ -85,52 +93,51 @@ export class DilemmaComponent implements OnInit, OnDestroy {
 
 
   }
+
 //TODO: Remember old values so that user can revert
   public selectFirstOption() {
     if (this.firstOptionClicked) {
       return;
     }
-    if (this.secondOptionClicked) {
-      this.resetStatusBars();
-
-    }
+    this.resetStatusBars();
     this.firstOptionClicked = true;
     this.secondOptionClicked = false;
-   let x = this.currentQuestion?.answers[`${this.buttonText[0]}`]
+    let x = this.currentQuestion?.answers[`${this.buttonText[0]}`]
     x?.forEach(entry => {
       Object.entries(entry).forEach(e => {
+        console.log(e[0] + ' ' + e[1])
+        this.newProgress.progress[e[0]] = e[1]
         this.statusBarService.updateValue(e[0], e[1]);
-      })
-    })
+        console.log(this.newProgress);
+      });
+    });
   }
 
   public selectSecondOption() {
     if (this.secondOptionClicked) {
       return;
     }
-    if (this.firstOptionClicked) {
-      this.resetStatusBars();
-
-    }
+    this.resetStatusBars();
     this.firstOptionClicked = false;
     this.secondOptionClicked = true;
     let x = this.currentQuestion?.answers[`${this.buttonText[1]}`]
     x?.forEach(entry => {
       Object.entries(entry).forEach(e => {
+        this.newProgress.progress[e[0]] = e[1] //Deze line fucked alles op. Zie ook R.109
         this.statusBarService.updateValue(e[0], e[1]);
       })
     })
-
   }
 
 
   private resetStatusBars() {
-    console.log('t')
-    this.statusBars.forEach(bar => {
-      console.log(bar)
-      console.log(this.progress.progress[bar])
-
-    })
+    this.statusBarService.resetCurrentStatus(this.progress);
+    // this.statusBars.forEach(bar => {
+    //   console.log(bar)
+    //   console.log(this.progress.progress[bar])
+    //   this.statusBarService.updateValue(bar, this.progress.progress[bar]);
+    //
+    // })
   }
 }
 
