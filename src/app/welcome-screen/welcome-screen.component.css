@@ -3,4 +3,16 @@
   flex-direction: column;
 }
 
-
+.inputstyle {
+  box-shadow: 2px 2px 4px #006699;
+  border: none;
+  background: none;
+  width: 60%;
+  background-color: white;
+  text-align: center;
+  font-size: 14px;
+  font-family: Rockwell, sans-serif;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  border-radius: 1.5em;
+}

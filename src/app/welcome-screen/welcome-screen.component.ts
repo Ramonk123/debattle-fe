@@ -12,7 +12,7 @@ import {AuthenticationService} from "../services/authentication.service";
 export class WelcomeScreenComponent implements OnInit {
 
   registerForm!: UntypedFormGroup;
-  isLoginForm: boolean = true;
+  isLoginForm: boolean = false;
   unequalPasswordsValidator: boolean = false;
 
   loginForm!: UntypedFormGroup

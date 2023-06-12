@@ -4,6 +4,7 @@ p {
 }
 
 h1 {
+  color: white;
   font-family: Rockwell, sans-serif;
   font-size: 12px;
 }
@@ -14,7 +15,12 @@ h1 {
   height: 100vh;
 }
 
+.shadow {
+  text-shadow: 2px 2px 4px #006699;
+}
+
 .buttonstyle {
+  box-shadow: 2px 2px 4px #006699;
   border: none;
   background: none;
   width: 80%;

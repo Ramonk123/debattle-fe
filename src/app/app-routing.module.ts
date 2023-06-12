@@ -5,11 +5,13 @@ import {HomeComponent} from "./home/home.component";
 import {AuthGuard} from "./util/auth.guard";
 import {DilemmaComponent} from "./home/dilemma/dilemma.component";
 import {LandingPageComponent} from "./landing-page/landing-page.component";
+import {MakeIslandComponent} from "./make-island/make-island.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'welcome', pathMatch: 'full'},
   {path: 'welcome', component: LandingPageComponent},
   {path: 'login', component: WelcomeScreenComponent },
+  {path: 'starting-island', component: MakeIslandComponent},
   {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
   {path: 'dilemma/:category', component: DilemmaComponent, canActivate: [AuthGuard]}
 
