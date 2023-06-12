@@ -8,7 +8,6 @@ import {environment} from "../../environments/environment";
 })
 export class StatusBarService {
   private moneyStatus$: BehaviorSubject<number> = new BehaviorSubject<number>(50);
-  private happinessStatus$: BehaviorSubject<number> = new BehaviorSubject<number>(30);
   private housingStatus$: BehaviorSubject<number> = new BehaviorSubject<number>(30);
   private climateStatus$: BehaviorSubject<number> = new BehaviorSubject<number>(30);
   private educationStatus$: BehaviorSubject<number> = new BehaviorSubject<number>(30);
@@ -22,10 +21,7 @@ export class StatusBarService {
 
   }
 
-  public getHappinessStatus() {
-    return this.happinessStatus$.asObservable();
 
-  }
 
   public getHousingStatus() {
     return this.housingStatus$.asObservable();
@@ -79,10 +75,7 @@ export class StatusBarService {
 
   }
 
-  private updateHappinessStatus(amount: number): void {
-    const newValue = this.calculateDifference(this.happinessStatus$.value, amount);
-    this.happinessStatus$.next(newValue);
-  }
+
 
   private updateClimateStatus(amount: number): void {
     const newValue = this.calculateDifference(this.climateStatus$.value, amount);
@@ -111,5 +104,18 @@ export class StatusBarService {
     const URL = environment.URL + `/user/${id}`;
     return this.http.post(URL, progress);
 
+  }
+
+  initializeProgress() {
+    const userId = localStorage.getItem('userId');
+
+    const URL = environment.URL + `/user/${userId}`;
+    return this.http.get<any>(URL).subscribe(progress => {
+      console.log(progress)
+      this.climateStatus$.next(progress.progress.climate);
+      this.moneyStatus$.next(progress.progress.economy);
+      this.educationStatus$.next(progress.progress.education);
+      this.housingStatus$.next(progress.progress.housing)
+    });
   }
 }

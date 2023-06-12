@@ -40,7 +40,6 @@ export class QuestionService {
 
       const URL = environment.URL + `/user/${userId}`;
       return this.http.get<any>(URL);
-
   }
 
 }
