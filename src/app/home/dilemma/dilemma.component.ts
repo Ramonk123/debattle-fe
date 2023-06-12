@@ -12,48 +12,43 @@ import {AuthenticationService} from "../../services/authentication.service";
   styleUrls: ['./dilemma.component.css']
 })
 export class DilemmaComponent implements OnInit, OnDestroy {
-  public category: string = '';
+  private category: string = '';
+  public displayedCategory: string = '';
   public questions: any[] = [];
   private questionIndex: number = 0;
   public currentQuestion: Question | null = null;
   public buttonText: string[] = [];
-  public statusBars: string[] = [];
-  public firstOptionClicked: boolean = false;
-  public secondOptionClicked: boolean = false;
   private progress: any = {};
-  private newProgress: any = {};
-
+  public firstButtonClicked = false;
+  public secondButtonClicked = false;
 
   constructor(private route: ActivatedRoute,
               private questionService: QuestionService,
-              private statusBarService: StatusBarService,
-              private authenticationService: AuthenticationService) {
+              private statusBarService: StatusBarService) {
   }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      this.category = params.get('category')!;
+      this.displayedCategory = params.get('category')!;
       this.questionService.getQuestions(this.category).subscribe(data => {
         this.questions = data;
+        this.setInnerCategory();
+        this.questionIndex = this.progress['questionsAnswered'][this.category];
         this.currentQuestion = this.questions[this.questionIndex];
-        this.setButtonText();
-        this.setStatusBar();
+        this.setButtonText()
       })
     });
-    const userId = localStorage.getItem('userId');
-    if (userId) {
-      this.questionService.getProgress().subscribe(data => {
-        this.progress = data;
-        this.newProgress = data;
-
-      });
+    let unParsedProgress = localStorage.getItem('progress');
+    if (unParsedProgress) {
+      this.progress = JSON.parse(unParsedProgress);
     }
+
+
   }
 
   ngOnDestroy(): void {
     this.questions = [];
     this.currentQuestion = null;
-    this.statusBarService.resetCurrentStatus(this.progress);
   }
 
   private setButtonText() {
@@ -63,79 +58,52 @@ export class DilemmaComponent implements OnInit, OnDestroy {
   }
 
   confirmChoice() {
-    if (this.questions.length == this.questionIndex) {
-      return; //TODO: Go to end screen or return to home island
-    }
-    this.statusBarService.updateProgress(this.progress).subscribe(data => {
-      console.log(data);
-
-    });
     this.questionIndex += 1;
     this.currentQuestion = this.questions[this.questionIndex];
 
   }
 
-  private setStatusBar() {
-    const answers = this.currentQuestion?.answers;
-    if (answers) {
-      const answerKeys = Object.keys(answers);
-      for (const key of answerKeys) {
-        const answerValues = answers[key];
-        answerValues.forEach(value => {
-          let bar = Object.keys(value)[0];
-          if (!this.statusBars.includes(bar)) {
-            this.statusBars.push(bar)
-          }
-        });
-      }
-    }
-
-
-  }
-
 //TODO: Remember old values so that user can revert
-  public selectFirstOption() {
-    if (this.firstOptionClicked) {
-      return;
+  public  selectFirstOption() {
+    if (this.secondButtonClicked) {
+      this.statusBarService.resetCurrentStatus();
     }
-    this.resetStatusBars();
-    this.firstOptionClicked = true;
-    this.secondOptionClicked = false;
-    let x = this.currentQuestion?.answers[`${this.buttonText[0]}`]
-    x?.forEach(entry => {
-      Object.entries(entry).forEach(e => {
-        this.newProgress.progress[e[0]] = e[1]
-        this.statusBarService.updateValue(e[0], e[1]);
-        console.log(this.newProgress);
-      });
-    });
-  }
+    this.firstButtonClicked = true;
+    this.secondButtonClicked = false;
+    let answerObject = this.currentQuestion?.answers[`${this.buttonText[0]}`];
+    answerObject?.forEach(domain => {
+      Object.entries(domain).forEach(consequence => {
+        this.statusBarService.updateValue(consequence[0], consequence[1]);
+      })
+    })
 
+  }
   public selectSecondOption() {
-    if (this.secondOptionClicked) {
-      return;
+    if (this.firstButtonClicked) {
+      this.statusBarService.resetCurrentStatus();
     }
-    this.resetStatusBars();
-    this.firstOptionClicked = false;
-    this.secondOptionClicked = true;
-    let x = this.currentQuestion?.answers[`${this.buttonText[1]}`]
-    x?.forEach(entry => {
-      Object.entries(entry).forEach(e => {
-        this.newProgress.progress[e[0]] = e[1] //Deze line fucked alles op. Zie ook R.109
-        this.statusBarService.updateValue(e[0], e[1]);
+    this.secondButtonClicked = true;
+    this.firstButtonClicked = false;
+    let answerObject = this.currentQuestion?.answers[`${this.buttonText[1]}`];
+    answerObject?.forEach(domain => {
+      Object.entries(domain).forEach(consequence => {
+        this.statusBarService.updateValue(consequence[0], consequence[1]);
       })
     })
   }
 
-
-  private resetStatusBars() {
-    this.statusBarService.resetCurrentStatus(this.progress);
-    // this.statusBars.forEach(bar => {
-    //   console.log(bar)
-    //   console.log(this.progress.progress[bar])
-    //   this.statusBarService.updateValue(bar, this.progress.progress[bar]);
-    //
-    // })
+  private setInnerCategory() {
+    switch (this.displayedCategory) {
+      case 'Natuur' :
+        this.category = 'nature';
+        break;
+      case 'Onderwijs' :
+        this.category = 'education';
+        break;
+      case 'Huisvesting' :
+        this.category = 'housing'
+        break;
+    }
   }
 }
 
