@@ -1,4 +1,59 @@
-<h1>{{category}}</h1>
+<div class="background d-flex align-items-start flex-column">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 text-center mt-2">
+        <img alt="money" height="33" ngSrc="assets/svg/left.svg" width="32" style="position: absolute;margin-left: 3px"/>
+        <button class="buttonstyle">Terug naar overzicht</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container my-auto">
+    <div class="row">
+      <div class="col-6 my-auto">
+        <img src="assets/png/islandBW.png" class="img-fluid" alt="partijland BW"/>
+      </div>
+      <div class="col-6">
+        <app-status-bar-categories-four></app-status-bar-categories-four>
+      </div>
+    </div>
+  </div>
+
+  <div class="container my-auto">
+    <div class="row">
+      <div class="col-sm-12 text-center">
+        <h1><b>{{category}}</b></h1>
+      </div>
+      <div class="col-sm-12">
+        <p class="text text-white">Er is een woningtekort en er moeten nieuwe woningen gebouwd worden <br><br> Wat voor soort woningen ga je bouwen?</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container my-auto">
+    <div class="row">
+      <div class="col-sm-12 text-center">
+        <button class="buttonstyle mb-3">Betaalbaar flatgebouw <br>waar meer mensen kunnen wonen </button>
+        <button class="buttonstyle">Betaalbaar flatgebouw <br>waar meer mensen kunnen wonen </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 text-center mb-3">
+        <button class="buttonstyle">volgende vraag</button>
+        <img alt="money" height="33" ngSrc="assets/svg/right.svg" width="32" style="position: absolute;margin-left: -40px"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
 <a routerLink="/home"><button>Back</button></a>
   <h2>Dilemma!</h2>
   <p>{{currentQuestion?.question}}</p>

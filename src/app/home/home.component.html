@@ -1,13 +1,37 @@
-<h1>Partijnaam</h1>
-<button (click)="testMethod()">test</button>
-<button (click)="logout()">logout</button>
 
-<div>
-  <app-status-bar [category]="'economy'"></app-status-bar>
-  <app-status-bar [category]="'housing'"></app-status-bar>
-  <app-status-bar [category]="'climate'"></app-status-bar>
-  <app-status-bar [category]="'education'"></app-status-bar>
+<div class="background d-flex align-items-start flex-column">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 text-center mt-2">
+        <img class="text-center" ngSrc="assets/svg/tienskiplogo.svg" alt="logo tienskip" height="30" width="97"/>
+      </div>
+
+      <div class="col-sm-12 text-center mt-4">
+        <h3 style="margin-bottom: -8px">Partijland:</h3>
+        <h1><b>Piraten Partij</b></h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="container my-auto">
+    <div class="row">
+      <div class="col-sm-12 mb-4">
+        <app-status-bar-money></app-status-bar-money>
+      </div>
+
+      <div class="col-sm-12 my-auto">
+        <app-island></app-island>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mb-auto">
+    <div class="row">
+      <div class="col-2"></div>
+      <div class="col-8">
+        <app-status-bar-categories></app-status-bar-categories>
+      </div>
+      <div class="col-2"></div>
+    </div>
+  </div>
 </div>
-<hr>
-
-<app-island></app-island>

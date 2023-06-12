@@ -13,6 +13,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import { IslandComponent } from './home/island/island.component';
 import { DilemmaComponent } from './home/dilemma/dilemma.component';
+import {NgOptimizedImage} from "@angular/common";
+import { StatusBarMoneyComponent } from './home/status-bar-money/status-bar-money.component';
+import { StatusBarCategoriesComponent } from './home/status-bar-categories/status-bar-categories.component';
+import { StatusBarCategoriesFourComponent } from './home/dilemma/status-bar-categories-four/status-bar-categories-four.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 @NgModule({
   declarations: [
@@ -21,16 +26,21 @@ import { DilemmaComponent } from './home/dilemma/dilemma.component';
     HomeComponent,
     StatusBarComponent,
     IslandComponent,
-    DilemmaComponent
+    DilemmaComponent,
+    StatusBarMoneyComponent,
+    StatusBarCategoriesComponent,
+    StatusBarCategoriesFourComponent,
+    LandingPageComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatProgressBarModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MatProgressBarModule,
+        NgOptimizedImage
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

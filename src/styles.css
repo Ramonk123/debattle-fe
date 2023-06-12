@@ -1,0 +1,28 @@
+p {
+  font-family: Rockwell, sans-serif;
+  font-size: 12px;
+}
+
+h1 {
+  font-family: Rockwell, sans-serif;
+  font-size: 12px;
+}
+
+.background {
+  background-color: #4BC6FF;
+  background-image: url('assets/png/Clouds.png');
+  height: 100vh;
+}
+
+.buttonstyle {
+  border: none;
+  background: none;
+  width: 80%;
+  background-color: white;
+  text-align: center;
+  font-size: 12px;
+  font-family: Rockwell, sans-serif;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  border-radius: 1.5em;
+}
