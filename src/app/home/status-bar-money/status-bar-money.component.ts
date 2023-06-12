@@ -9,7 +9,7 @@ import {Observable, Subscription} from "rxjs";
 })
 export class StatusBarMoneyComponent implements OnInit {
   moneyStatus: number = 50;
-  money$!: Observable<number>;
+  money$: Observable<number> = new Observable<number>();
 
   constructor(private statusBarService: StatusBarService) {}
 
