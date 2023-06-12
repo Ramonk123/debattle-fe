@@ -43,7 +43,6 @@ export class DilemmaComponent implements OnInit, OnDestroy {
     const userId = localStorage.getItem('userId');
     if (userId) {
       this.questionService.getProgress().subscribe(data => {
-        console.log(data)
         this.progress = data;
         this.newProgress = data;
 
@@ -105,7 +104,6 @@ export class DilemmaComponent implements OnInit, OnDestroy {
     let x = this.currentQuestion?.answers[`${this.buttonText[0]}`]
     x?.forEach(entry => {
       Object.entries(entry).forEach(e => {
-        console.log(e[0] + ' ' + e[1])
         this.newProgress.progress[e[0]] = e[1]
         this.statusBarService.updateValue(e[0], e[1]);
         console.log(this.newProgress);
