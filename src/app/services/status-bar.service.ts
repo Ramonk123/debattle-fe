@@ -78,8 +78,6 @@ export class StatusBarService {
 
 
   private updateClimateStatus(amount: number): void {
-    console.log('test')
-    console.log(this.climateStatus$)
     const newValue = this.calculateDifference(this.climateStatus$.value, amount);
     this.climateStatus$.next(newValue);
   }

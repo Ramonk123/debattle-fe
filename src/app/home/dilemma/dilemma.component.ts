@@ -59,7 +59,10 @@ export class DilemmaComponent implements OnInit, OnDestroy {
 
   confirmChoice() {
     this.questionIndex += 1;
+    this.firstButtonClicked = false;
+    this.secondButtonClicked = false;
     this.currentQuestion = this.questions[this.questionIndex];
+    // this.questionService.updateProgress()
 
   }
 
