@@ -18,6 +18,7 @@ import { StatusBarMoneyComponent } from './home/status-bar-money/status-bar-mone
 import { StatusBarCategoriesComponent } from './home/status-bar-categories/status-bar-categories.component';
 import { StatusBarCategoriesFourComponent } from './home/dilemma/status-bar-categories-four/status-bar-categories-four.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { MakeIslandComponent } from './make-island/make-island.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
     StatusBarCategoriesComponent,
     StatusBarCategoriesFourComponent,
     LandingPageComponent,
+    MakeIslandComponent,
   ],
     imports: [
         BrowserModule,

@@ -7,3 +7,8 @@ button, input[type="submit"], input[type="reset"] {
   cursor: pointer;
   outline: inherit;
 }
+
+.blur {
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
+}

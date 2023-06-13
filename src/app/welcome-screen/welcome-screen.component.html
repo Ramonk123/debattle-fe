@@ -1,84 +1,70 @@
 <div class="background d-flex align-items-start flex-column">
   <div class="container">
     <div class="row">
-
-      <div class="col-sm-12 text-center mt-2">
-        <img class="text-center" src="assets/svg/tienskiplogo.svg" alt="logo tienskip" height="30" width="97"/>
+      <div class="col-12 text-center mt-2">
+        <img
+          class="text-center"
+          src="assets/svg/tienskiplogo.svg"
+          alt="logo tienskip"
+          height="30"
+          width="97"
+        />
       </div>
-
     </div>
   </div>
 
   <div class="container my-auto">
-    <div class="row">
-      <div class="col-sm-12 mt-3 text-center">
-        <img class="img-fluid" src="assets/svg/Partijland.svg" alt="Partijland"/>
-      </div>
-      <div class="col-sm-12 text-center mb-1 mt-3">
-        <button class="buttonstyle">Wat is je partij naam?</button>
+    <div class="row ">
+      <div class="col-12 text-center mx-auto">
+        <div [hidden]="isLoginForm">
+          <h1><b>Inloggen</b></h1>
+          <div class="text-center">
+            <form [formGroup]="loginForm" (ngSubmit)="submitLoginForm()" class="login-form align-items-center">
+              <input class="inputstyle mt-2" type="text" id="email" formControlName="email">
+              <input class="inputstyle mt-2" type="password" id="password" formControlName="password">
+              <button class="buttonstyle mt-2" type="submit">Inloggen</button>
+            </form>
+          </div>
+        </div>
       </div>
 
+      <div [hidden]="!isLoginForm">
+        <form [formGroup]="registerForm" class="login-form" (ngSubmit)="submitRegisterForm()">
+          <h2>Registreren</h2>
+          <label for="email-input">Vul je e-mailadres in</label>
+          <input type="text" id="email-input" placeholder="Emailadres" formControlName="email">
+          <div *ngIf="registerForm?.get('email')?.dirty && registerForm?.get('email')?.invalid">
+            <p>Emailadres onjuist</p>
+          </div>
+
+          <label for="password-input">Wachtwoord</label>
+          <input type="password" placeholder="Wachtwoord" id="password-input" formControlName="password">
+          <div *ngIf="registerForm?.get('password')?.dirty && registerForm?.get('password')?.value.length < 7">
+            <p>Wachtwoord moet minimaal 7 karakters bevatten</p>
+          </div>
+
+          <label for="password-input">Herhaal wachtwoord</label>
+          <input type="password" placeholder="Herhaal wachtwoord" id="password-input-repeat"
+                 formControlName="passwordRepeat">
+          <div *ngIf="unequalPasswordsValidator">
+            <p>Wachtwoorden komen niet overeen</p>
+          </div>
+
+          <button type="submit" [disabled]="registerForm.invalid">Maak je partij!</button>
+        </form>
+        <p>Al een account?</p>
+
+      </div>
     </div>
   </div>
 
-  <div class="container mb-auto">
+  <div class="container">
     <div class="row">
-
-      <div class="col-sm-12">
-        <img class="img-fluid" src="assets/png/islandBW.png" alt="island BW"/>
-      </div>
-      <div class="col-sm-12 text-center mb-3 mt-3">
-        <button class="buttonstyle">Maak je eiland</button>
+      <div class="col-12 text-center mb-2">
+        <button [hidden]="isLoginForm" class="buttonstyle" (click)="isLoginForm =!isLoginForm">Ga naar registreren</button>
+        <button [hidden]="!isLoginForm" class="buttonstyle" (click)="isLoginForm = !isLoginForm">Ga naar inloggen</button>
       </div>
     </div>
-  </div>
-</div>
-
-
-<div>
-  <h1>Debattle</h1>
-  <div [hidden]="!isLoginForm">
-    <form [formGroup]="registerForm" class="login-form" (ngSubmit)="submitRegisterForm()">
-      <h2>Registreren</h2>
-      <label for="email-input">Vul je e-mailadres in</label>
-      <input type="text" id="email-input" placeholder="Emailadres" formControlName="email">
-      <div *ngIf="registerForm?.get('email')?.dirty && registerForm?.get('email')?.invalid">
-        <p>Emailadres onjuist</p>
-      </div>
-
-      <label for="password-input">Wachtwoord</label>
-      <input type="password" placeholder="Wachtwoord" id="password-input" formControlName="password">
-      <div *ngIf="registerForm?.get('password')?.dirty && registerForm?.get('password')?.value.length < 7">
-        <p>Wachtwoord moet minimaal 7 karakters bevatten</p>
-      </div>
-
-      <label for="password-input">Herhaal wachtwoord</label>
-      <input type="password" placeholder="Herhaal wachtwoord" id="password-input-repeat"
-             formControlName="passwordRepeat">
-      <div *ngIf="unequalPasswordsValidator">
-        <p>Wachtwoorden komen niet overeen</p>
-      </div>
-
-      <button type="submit" [disabled]="registerForm.invalid">Maak je partij!</button>
-    </form>
-    <p>Al een account?</p>
-    <button (click)="isLoginForm = !isLoginForm">Ga naar inloggen</button>
-  </div>
-  <div [hidden]="isLoginForm">
-    <h2>Inloggen</h2>
-    <form [formGroup]="loginForm" (ngSubmit)="submitLoginForm()" class="login-form">
-      <label for="email">Emailadres</label>
-      <input type="text" id="email" formControlName="email">
-      <div *ngIf="loginForm?.get('email')?.dirty && loginForm.get('email')?.invalid">
-        <p>Onjuist emailadres</p>
-      </div>
-      <label for="password">Wachtwoord</label>
-      <input type="password" id="password" formControlName="password">
-      <button type="submit">Inloggen</button>
-
-    </form>
-    <p>Nog geen account?</p>
-  <button (click)="isLoginForm =!isLoginForm">Ga naar registreren</button>
   </div>
 </div>
 
