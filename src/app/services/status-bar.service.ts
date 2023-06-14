@@ -39,10 +39,10 @@ export class StatusBarService {
 
   }
 
-    resetCurrentStatus() {
+  resetCurrentStatus() {
     let progressString = localStorage.getItem('progress');
     if (progressString) {
-      const {progress, questionsAnswered}= JSON.parse(progressString!)
+      const {progress, questionsAnswered} = JSON.parse(progressString!)
       this.climateStatus$.next(progress.climate);
       this.moneyStatus$.next(progress.economy);
       this.educationStatus$.next(progress.education);
@@ -95,21 +95,36 @@ export class StatusBarService {
 
   private calculateDifference(current: number, change: number): number {
     let finalAmount = current + change;
+    if (finalAmount < 0) {finalAmount = 0}
+    else if (finalAmount > 100) {finalAmount = 100}
     return finalAmount;
   }
 
   public updateProgress(progress: any) {
-    const id = localStorage.getItem('userId');
-    const URL = environment.URL + `/user/${id}`;
-    return this.http.post(URL, progress);
+    progress = {
+      progress: {
+        economy: this.moneyStatus$.value,
+        education: this.educationStatus$.value,
+        housing: this.housingStatus$.value,
+        climate: this.climateStatus$.value
+      },
+      questionsAnswered: progress.questionsAnswered
+    }
+    console.log(progress)
+    const userId = localStorage.getItem('userId');
+    console.log(userId)
+    const URL = environment.URL + `/user/${userId}`;
+    this.http.post(URL, progress).subscribe(res => {
+      console.log(res)
+    });
 
   }
 
-   initializeProgress() {
+  initializeProgress() {
     const userId = localStorage.getItem('userId');
 
     const URL = environment.URL + `/user/${userId}`;
-     this.http.get<any>(URL).subscribe(progress => {
+    this.http.get<any>(URL).subscribe(progress => {
       localStorage.setItem('progress', JSON.stringify(progress));
       this.climateStatus$.next(progress.progress.climate);
       this.moneyStatus$.next(progress.progress.economy);

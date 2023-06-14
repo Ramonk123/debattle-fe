@@ -31,10 +31,6 @@ export class QuestionService {
     return this.http.get<Question[]>(URL);
   }
 
-  updateProgress(id: string, body: {}) {
-    const URL = environment.URL + `/user/${id}`;
-    return this.http.post(URL, body);
-  }
   getProgress() {
     const userId = localStorage.getItem('userId');
 

@@ -30,8 +30,9 @@ export class DilemmaComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.displayedCategory = params.get('category')!;
-      this.questionService.getQuestions(this.category).subscribe(data => {
+      this.questionService.getQuestions(this.displayedCategory).subscribe(data => {
         this.questions = data;
+        console.log(this.questions)
         this.setInnerCategory();
         this.questionIndex = this.progress['questionsAnswered'][this.category];
         this.currentQuestion = this.questions[this.questionIndex];
@@ -52,6 +53,7 @@ export class DilemmaComponent implements OnInit, OnDestroy {
   }
 
   private setButtonText() {
+    this.buttonText = [];
     Object.keys(this.currentQuestion!.answers).forEach(answerText => {
       this.buttonText.push(answerText);
     })
@@ -62,12 +64,13 @@ export class DilemmaComponent implements OnInit, OnDestroy {
     this.firstButtonClicked = false;
     this.secondButtonClicked = false;
     this.currentQuestion = this.questions[this.questionIndex];
-    // this.questionService.updateProgress()
+    this.progress.questionsAnswered[this.category] = this.questionIndex
+    this.statusBarService.updateProgress(this.progress) // maybe here;
+    this.setButtonText(); // and here
 
   }
 
-//TODO: Remember old values so that user can revert
-  public  selectFirstOption() {
+  public selectFirstOption() {
     if (this.secondButtonClicked) {
       this.statusBarService.resetCurrentStatus();
     }
@@ -81,6 +84,7 @@ export class DilemmaComponent implements OnInit, OnDestroy {
     })
 
   }
+
   public selectSecondOption() {
     if (this.firstButtonClicked) {
       this.statusBarService.resetCurrentStatus();
@@ -98,7 +102,7 @@ export class DilemmaComponent implements OnInit, OnDestroy {
   private setInnerCategory() {
     switch (this.displayedCategory) {
       case 'Natuur' :
-        this.category = 'nature';
+        this.category = 'climate';
         break;
       case 'Onderwijs' :
         this.category = 'education';
