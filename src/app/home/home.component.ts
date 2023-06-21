@@ -17,23 +17,7 @@ export class HomeComponent implements OnInit {
     this.authenticationService.autoLogin();
   }
 
-  testMethod() {
-    const body = [
-      {
-        "Question": "What is the world",
-        "Answers": [
-          "Nithinsf",
-          "asdjajd",
-          "asdasdad"
-        ]
-      },
-      {
-        "Question" : "Who ami ",
-        "Answers": ["No one", "Ramon", "Shrugs"]
-      }
-    ]
-    this.questionService.addQuestion(body);
-  }
+
   logout() {
     this.authenticationService.logout();
     this.router.navigate(['login'])

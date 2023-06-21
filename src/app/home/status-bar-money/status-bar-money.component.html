@@ -6,7 +6,7 @@
     <div class="col-12">
       <img alt="money" height="33" ngSrc="assets/svg/money.svg" width="32" style="position: absolute"/>
       <div class="progress-bar" style="margin-top: 10px;margin-left: 3%">
-        <div class="progress-bar-fill" style="width: 50%"></div>
+        <div class="progress-bar-fill" [style.width.%]="moneyStatus"></div>
       </div>
     </div>
   </div>
